@@ -40,7 +40,6 @@ export let action = async ({request}) => {
         table.increments("id").primary();
         table.text("name").notNullable();
         table.enu("type", ["COMPANY", "TOPIC"]);
-        table.text("label").notNullable();
     });
 
     const createQuestionTagsTable = knexConnection.schema.createTableIfNotExists("question_tags", (table) => {
@@ -55,9 +54,9 @@ export let action = async ({request}) => {
 
     try {
         // seperating these promises bc foreign keys cant reference a table that isnt created
-        await Promise.all([createQuestionTable, createTagsTable, createSignaturesTable, createClassDefinitionsTable]);
+        await Promise.all([createQuestionTable, createTagsTable, createClassDefinitionsTable]);
         
-        await Promise.all([createTestCasesTable, createQuestionTagsTable]);
+        await Promise.all([createTestCasesTable, createQuestionTagsTable, createSignaturesTable]);
     } catch (e) {
         console.error("unable to create tables received the following error: "+ e);
     }
